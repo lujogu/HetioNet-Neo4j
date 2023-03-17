@@ -114,5 +114,21 @@ def query_one(param):
     for record in results:
         print(record)
 
+def query_two():
+    query = """
+    MATCH (d:Disease)
+    WHERE NOT (d)<-[:TREATS|:PALLIATES]-(:Compound)
+    WITH d
+    MATCH (d)-[:LOCALIZES]->(a:Anatomy)-[r:DOWNREGULATES|UPREGULATES]->(g:Gene)<-[r2:DOWNREGULATES|UPREGULATES]-(c:Compound)
+    WHERE (r.metaedge = 'AdG' AND r2.metaedge = 'CuG') OR (r.metaedge = 'AuG' AND r2.metaedge = 'CdG')
+    WITH d, c, COUNT(DISTINCT g) AS num_genes
+    WHERE num_genes > 1
+    RETURN d.id AS disease_id, d.name AS disease_name, COLLECT(DISTINCT c.name) AS compound_names
+    """
+    results = graph.run(query)
+    for record in results:
+        print(record)
+
+
 results = graph.run(produce_graph)
 print("graph produced!")
