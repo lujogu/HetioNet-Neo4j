@@ -1,7 +1,5 @@
 from py2neo import Graph
 
-# Create a Graph object using the default Neo4j credentials
-
 def produce_graph():
     graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
     query = """
@@ -132,4 +130,8 @@ def query_two(graph):
     for record in results:
         print(record)
 
-input
+first_answer = input("Hello! Would you like to create a neo4j database? (Y/n)")
+if (first_answer == 'Y'):
+    produce_graph()
+else:
+    print("Oh well!")
