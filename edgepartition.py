@@ -1,5 +1,4 @@
 import csv
-import os
 
 # Define the input and output filenames
 input_filename = 'edges.tsv'
@@ -21,11 +20,6 @@ with open(input_filename, 'r', newline='') as input_file:
             tsv_writer = csv.writer(output_file, delimiter='\t')
         # Otherwise, use the existing output file for this partition key
         else:
-            path = r"my/path/to/file.txt"
-            assert os.path.isfile(path)
-            with open(path, "r") as f:
-                pass
-
             output_file = open(output_filenames[partition_key], 'a', newline='')
             tsv_writer = csv.writer(output_file, delimiter='\t')
         
