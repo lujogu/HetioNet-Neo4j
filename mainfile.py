@@ -130,8 +130,8 @@ def query_two(graph):
     for record in results:
         print(record)
 
-first_answer = input("Hello! Would you like to create a neo4j database? (Y/n)")
-if (first_answer == 'Y'):
+first_answer = input("Hello! Would you like to create a neo4j database? (Y/n)\n")
+if (first_answer == 'Y' or first_answer == 'y'):
     produce_graph()
 else:
     print("Oh well!")
