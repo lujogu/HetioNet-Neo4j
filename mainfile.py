@@ -132,10 +132,10 @@ def query_two(graph):
     for record in results:
         print(record)
 
-created = False #can be changed for testing
+created = True #can be changed for testing
 print("Hello!")
 while(True):
-    first_answer = input("Would you like to create a neo4j database, run query 1 (checks disease characteristics after inputting ID), or query 2 (finds compounds which currently are not used to treat disease)? (create/1/2/quit)\n")
+    first_answer = input("\n\nWould you like to create a neo4j database, run query 1 (checks disease characteristics after inputting ID), or query 2 (finds compounds which currently are not used to treat disease)? (create/1/2/quit)\n")
     if (first_answer == 'create'):
         if created:
             print("graph already exists\n")
