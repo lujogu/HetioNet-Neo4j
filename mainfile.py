@@ -1,7 +1,8 @@
 from py2neo import Graph
 
+graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
+
 def produce_graph():
-    graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
     
     queries = [
     """LOAD CSV FROM "file:///nodes.tsv" AS row FIELDTERMINATOR '	'
@@ -25,71 +26,71 @@ def produce_graph():
     WHERE n.id CONTAINS 'Compound'
     SET n:Compound;""",
 
-    """LOAD CSV FROM 'file:///AdG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///AdG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'AdG'
     CREATE (a)-[:DOWNREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///AeG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///AeG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'AeG'
     CREATE (a)-[:EXPRESSES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///AuG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///AuG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'AuG'
     CREATE (a)-[:UPREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CbG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CbG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CbG'
     CREATE (a)-[:BINDS{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CdG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CdG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CdG'
     CREATE (a)-[:DOWNREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CpD.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CpD.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CpD'
     CREATE (a)-[:PALLIATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CrC.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CrC.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CrC'
     CREATE (a)-[:RESEMBLES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CtD.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CtD.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CtD'
     CREATE (a)-[:TREATS{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///CuG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///CuG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'CuG'
     CREATE (a)-[:UPREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///DaG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///DaG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'DaG'
     CREATE (a)-[:ASSOCIATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///DdG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///DdG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'DdG'
     CREATE (a)-[:DOWNREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///DlA.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///DlA.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'DlA'
     CREATE (a)-[:LOCALIZES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///DrD.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///DrD.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'DrD'
     CREATE (a)-[:RESEMBLES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///DuG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///DuG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'DuG'
     CREATE (a)-[:UPREGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///GcG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///GcG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'GcG'
     CREATE (a)-[:COVARIES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///GiG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///GiG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'GiG'
     CREATE (a)-[:INTERACTS{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
-    """LOAD CSV FROM 'file:///GrG.tsv' AS edge FIELDTERMINATOR '	'
+    """LOAD CSV FROM 'file:///GrG.tsv' AS edge FIELDTERMINATOR '\t'
     MATCH (a:Node{id:edge[0]}), (b:Node{id:edge[2]}) WHERE edge[1] = 'GrG'
     CREATE (a)-[:REGULATES{metaedge: edge[1]}]->(b) RETURN a,b;""",
 
@@ -97,7 +98,6 @@ def produce_graph():
     for query in queries:
         graph.run(query)
     print("graph produced!")
-    return graph
 
 def query_one(graph, param):
     query = """
@@ -132,9 +132,9 @@ def query_two(graph):
         print(record)
 
 created = False
-
+print("Hello!")
 while(True):
-    first_answer = input("Hello! Would you like to create a neo4j database, run query 1 (checks disease characteristics after inputting ID), or query 2 (finds compounds which currently are not used to treat disease)? (create/1/2/quit)\n")
+    first_answer = input("Would you like to create a neo4j database, run query 1 (checks disease characteristics after inputting ID), or query 2 (finds compounds which currently are not used to treat disease)? (create/1/2/quit)\n")
     if (first_answer == 'create'):
         if created:
             print("graph already exists\n")
