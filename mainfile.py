@@ -4,10 +4,10 @@ def produce_graph():
     graph = Graph("bolt://localhost:7687", auth=("neo4j", "password"))
     
     queries = [
-    # """LOAD CSV FROM "file:///nodes.tsv" AS row FIELDTERMINATOR '	'
-    # CREATE(:Node{id: row[0], name: row[1], kind:row[2]});""",
+    """LOAD CSV FROM "file:///nodes.tsv" AS row FIELDTERMINATOR '	'
+    CREATE(:Node{id: row[0], name: row[1], kind:row[2]});""",
     
-    # """CREATE TEXT INDEX FOR (n:Node) ON (n.id);""",
+    """CREATE TEXT INDEX FOR (n:Node) ON (n.id);""",
 
     """MATCH (n:Node)
     WHERE n.id CONTAINS 'Anatomy'
@@ -101,7 +101,7 @@ def produce_graph():
 
 def query_one(graph, param):
     query = """
-    MATCH (d:Disease{name:{})
+    MATCH (d:Disease{name:'%s'})
     OPTIONAL MATCH (d)<-[:TREATS]-(c:Compound)
     OPTIONAL MATCH (d)<-[:PALLIATES]-(c:Compound)
     OPTIONAL MATCH (d)<-[:DOWNREGULATES]-(g:Gene)
@@ -111,7 +111,7 @@ def query_one(graph, param):
         COLLECT(DISTINCT c.name) AS compound_names, 
         COLLECT(DISTINCT g.name) AS gene_names, 
         COLLECT(DISTINCT a.name) AS anatomy_names
-    """.format(param)
+    """%(param)
     results = graph.run(query)
     for record in results:
         print(record)
@@ -131,8 +131,29 @@ def query_two(graph):
     for record in results:
         print(record)
 
-first_answer = input("Hello! Would you like to create a neo4j database? (Y/n)\n")
-if (first_answer == 'Y' or first_answer == 'y'):
-    produce_graph()
-else:
-    print("Oh well!")
+created = False
+
+while(True):
+    first_answer = input("Hello! Would you like to create a neo4j database, run query 1 (checks disease characteristics after inputting ID), or query 2 (finds compounds which currently are not used to treat disease)? (create/1/2/quit)\n")
+    if (first_answer == 'create'):
+        if created:
+            print("graph already exists\n")
+        else:
+            graph = produce_graph()
+            created = True
+    elif (first_answer == '1'):
+        if not created:
+            print("Must first create a db")
+        else:
+            inputted_disease = input("Disease: ")
+            query_one(graph, inputted_disease)        
+    elif (first_answer == '2'):
+        if not created:
+            print("Must first create a db")
+        else:
+            query_two(graph)      
+    elif (first_answer == 'quit'):
+        print("Quitting...")
+        break
+    else:
+        print("Please select one of the provided options.\n")
