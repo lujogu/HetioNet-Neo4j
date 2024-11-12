@@ -1,4 +1,4 @@
-Hello! Thank you professor for allowing us to submit this project late. Below I have some preliminary 
+Hello! Below I have some preliminary 
 steps for our Neo4j db to work:
 
 When creating the Neo4j server, be sure to assign the password as 'password'
